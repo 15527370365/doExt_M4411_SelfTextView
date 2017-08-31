@@ -1,0 +1,292 @@
+{
+    "ID": "M4411_SelfTextView",
+    "IsContainer": "0",
+    "Type": "UI",
+    "UIType": "Layout",
+    "Name": "自定义字体多行文本",
+    "Version": "0.9.9.9",
+    "Description": "多行文本，可以使用自定义字体；data://font.ttf",
+    "Icon": "",
+    "BBS": "",
+    "Keyword": "其它类型",
+    "IOS": {
+        "Support": 1,
+        "MinVersion": "7.0"
+    },
+    "Android": {
+        "Support": 1,
+        "MinVersion": "4.0"
+    },
+    "Windows": {
+        "Support": 0,
+        "MinVersion": ""
+    },
+    "WindowsPhone": {
+        "Support": 0,
+        "MinVersion": ""
+    },
+    "Html": {
+        "Support": 1,
+        "MinVersion": "5.0"
+    },
+    "Properties": [
+                   {
+                   "ID": "angel",
+                   "Name": "倾斜角度",
+                   "Type": "Number",
+                   "Type_JavaScript": "Number",
+                   "DefaultValue": "0",
+                   "EditType": "1",
+                   "Group": "",
+                   "Description": "",
+                   "Design": {
+                   "Type": "Integer",
+                   "Data": []
+                   },
+                   "Deprecated": false
+                   },
+                   {
+                   "ID": "enabled",
+                   "Name": "是否可编辑",
+                   "Type": "Bool",
+                   "Type_JavaScript": "Bool",
+                   "DefaultValue": "true",
+                   "EditType": "1",
+                   "Group": "",
+                   "Description": "",
+                   "Design": {
+                   "Type": "Boolean",
+                   "Data": []
+                   },
+                   "Deprecated": false
+                   },
+                   {
+                   "ID": "fontColor",
+                   "Name": "字体颜色",
+                   "Type": "String",
+                   "Type_JavaScript": "String",
+                   "DefaultValue": "",
+                   "EditType": "1",
+                   "Group": "",
+                   "Description": "",
+                   "Design": {
+                   "Type": "Color",
+                   "Data": []
+                   },
+                   "Deprecated": false
+                   },
+                   {
+                   "ID": "fontPath",
+                   "Name": "定制字体路径",
+                   "Type": "String",
+                   "Type_JavaScript": "String",
+                   "DefaultValue": "",
+                   "EditType": "1",
+                   "Group": "",
+                   "Description": "",
+                   "Design": {
+                   "Type": "FileSource",
+                   "Data": []
+                   },
+                   "Deprecated": false
+                   },
+                   {
+                   "ID": "fontSize",
+                   "Name": "字体大小",
+                   "Type": "Number",
+                   "Type_JavaScript": "Number",
+                   "DefaultValue": "",
+                   "EditType": "1",
+                   "Group": "",
+                   "Description": "",
+                   "Design": {
+                   "Type": "UInteger",
+                   "Data": []
+                   },
+                   "Deprecated": false
+                   },
+                   {
+                   "ID": "fontStyle",
+                   "Name": "字体风格",
+                   "Type": "String",
+                   "Type_JavaScript": "String",
+                   "DefaultValue": "",
+                   "EditType": "1",
+                   "Group": "",
+                   "Description": "",
+                   "Design": {
+                   "Type": "List",
+                   "Data": []
+                   },
+                   "Deprecated": false
+                   },
+                   {
+                   "ID": "heights",
+                   "Name": "高度",
+                   "Type": "Number",
+                   "Type_JavaScript": "Number",
+                   "DefaultValue": "",
+                   "EditType": "1",
+                   "Group": "",
+                   "Description": "",
+                   "Design": {
+                   "Type": "UInteger",
+                   "Data": []
+                   },
+                   "Deprecated": false
+                   },
+                   {
+                   "ID": "image",
+                   "Name": "显示图片",
+                   "Type": "String",
+                   "Type_JavaScript": "String",
+                   "DefaultValue": "",
+                   "EditType": "1",
+                   "Group": "",
+                   "Description": "",
+                   "Design": {
+                   "Type": "Text",
+                   "Data": []
+                   },
+                   "Deprecated": false
+                   },
+                   {
+                   "ID": "maxLength",
+                   "Name": "可允许输入的最大长度",
+                   "Type": "Number",
+                   "Type_JavaScript": "Number",
+                   "DefaultValue": "",
+                   "EditType": "1",
+                   "Group": "",
+                   "Description": "",
+                   "Design": {
+                   "Type": "UInteger",
+                   "Data": []
+                   },
+                   "Deprecated": false
+                   },
+                   {
+                   "ID": "maxLines",
+                   "Name": "最大行数",
+                   "Type": "Number",
+                   "Type_JavaScript": "Number",
+                   "DefaultValue": "",
+                   "EditType": "1",
+                   "Group": "",
+                   "Description": "",
+                   "Design": {
+                   "Type": "UInteger",
+                   "Data": []
+                   },
+                   "Deprecated": false
+                   },
+                   {
+                   "ID": "selected",
+                   "Name": "是否被选中",
+                   "Type": "Bool",
+                   "Type_JavaScript": "Bool",
+                   "DefaultValue": "true",
+                   "EditType": "1",
+                   "Group": "",
+                   "Description": "",
+                   "Design": {
+                   "Type": "Boolean",
+                   "Data": []
+                   },
+                   "Deprecated": false
+                   },
+                   {
+                   "ID": "text",
+                   "Name": "文本内容",
+                   "Type": "String",
+                   "Type_JavaScript": "String",
+                   "DefaultValue": "",
+                   "EditType": "1",
+                   "Group": "",
+                   "Description": "",
+                   "Design": {
+                   "Type": "Text",
+                   "Data": []
+                   },
+                   "Deprecated": false
+                   },
+                   {
+                   "ID": "widths",
+                   "Name": "宽度",
+                   "Type": "Number",
+                   "Type_JavaScript": "Number",
+                   "DefaultValue": "",
+                   "EditType": "1",
+                   "Group": "",
+                   "Description": "",
+                   "Design": {
+                   "Type": "UInteger",
+                   "Data": []
+                   },
+                   "Deprecated": false
+                   }
+                   ],
+    "Events": [
+               {
+               "ID": "delete",
+               "Description": "删除控件事件",
+               "ReturnType": "",
+               "ReturnType_JavaScript": "",
+               "ReturnDesc": "",
+               "Deprecated": false
+               },
+               {
+               "ID": "doubleClick",
+               "Description": "双击组件事件",
+               "ReturnType": "",
+               "ReturnType_JavaScript": "",
+               "ReturnDesc": "",
+               "Deprecated": false
+               },
+               {
+               "ID": "dragFinished",
+               "Description": "拖动结束事件",
+               "ReturnType": "",
+               "ReturnType_JavaScript": "",
+               "ReturnDesc": "",
+               "Deprecated": false
+               },
+               {
+               "ID": "rotateFinished",
+               "Description": "旋转结束事件",
+               "ReturnType": "",
+               "ReturnType_JavaScript": "",
+               "ReturnDesc": "",
+               "Deprecated": false
+               },
+               {
+               "ID": "touch",
+               "Description": "点击组件整体",
+               "ReturnType": "",
+               "ReturnType_JavaScript": "",
+               "ReturnDesc": "",
+               "Deprecated": false
+               },
+               {
+               "ID": "zoomFinished",
+               "Description": "缩放结束事件",
+               "ReturnType": "",
+               "ReturnType_JavaScript": "",
+               "ReturnDesc": "",
+               "Deprecated": false
+               }
+               ],
+    "syncMethodes": [
+                     {
+                     "ID": "refreshSelf",
+                     "Name": "刷新自己",
+                     "Description": "",
+                     "ReturnType": "",
+                     "ReturnType_JavaScript": "",
+                     "ReturnDesc": "",
+                     "Paras": [],
+                     "Deprecated": false
+                     }
+                     ],
+    "asyncMethodes": []
+}
