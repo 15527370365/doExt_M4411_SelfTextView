@@ -35,8 +35,11 @@
     [super viewDidLoad];
     [self InitInstance];
     [self ConfigUI];
+
     // Do any additional setup after loading the view, typically from a nib.
 }
+
+
 - (void) InitInstance
 {
     NSString *testPath = [[NSBundle mainBundle] pathForResource:@"do_Test" ofType:@"json"];
@@ -51,12 +54,15 @@
     //如果是UI类型，还需要构造view
     M4411_SelfTextView_UIView* view = [[M4411_SelfTextView_UIView alloc]init];
     view.tag = 1001;
-    view.frame = CGRectMake(100, 100, 100, 100);
+    view.frame = CGRectMake(100, 100, 200, 200);
     view.backgroundColor = [UIColor redColor];
     [view LoadView:model];
     //view.image = [UIImage imageNamed:@"test"];
     [self.view addSubview:view];
-    [view change_text:@"hello world dkfsdafj 12345 678 90 12345 6789 world"];
+    [view change_text:@"kkjgjhgjkgj"];
+//    UIImageView *image = [[UIImageView alloc] initWithFrame:(CGRectMake(50, 50, 200, 200))];
+//    image.image = [UIImage imageNamed:@"test"];
+//    [self.view addSubview:image];
     
     
     //[view LoadView:model];
@@ -104,14 +110,13 @@
     
     //[view change_fontSize:@"14"];
     [view change_widths:@"200"];
-    [view refreshSelf:NULL];
 }
 - (void)test1:(UIButton *)sender
 {
     NSLog(@"显示文字");
     M4411_SelfTextView_UIView *view = [self.view viewWithTag:1001];
     [view change_text:@"中华人民共和国中南财经政法大学好好学习天天向上呼吸系统abc我们的太阳升起来"];
-    [view refreshSelf:NULL];
+    
 
     //执行同步方法
     //NSMutableDictionary* node = [[NSMutableDictionary alloc]init];
@@ -124,7 +129,6 @@
     NSLog(@"旋转");
     M4411_SelfTextView_UIView *view = [self.view viewWithTag:1001];
     [view change_angel:@"30"];
-    [view refreshSelf:NULL];
     //执行异步方法
     //NSMutableDictionary* node = [[NSMutableDictionary alloc]init];
     //[node setObject:参数值 forKey:参数名];
@@ -137,21 +141,21 @@
     NSLog(@"选中");
     M4411_SelfTextView_UIView *view = [self.view viewWithTag:1001];
     [view change_selected:@"YES"];
-    [view refreshSelf:NULL];
+    
 }
 - (void)test4:(UIButton *)sender
 {
     NSLog(@"设置图片");
     M4411_SelfTextView_UIView *view = [self.view viewWithTag:1001];
     [view change_image:@"test"];
-    [view refreshSelf:NULL];
+    
 }
 - (void)test5:(UIButton *)sender
 {
     NSLog(@"取消选择");
     M4411_SelfTextView_UIView *view = [self.view viewWithTag:1001];
     [view change_selected:@"NO"];
-    [view refreshSelf:NULL];
+    
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

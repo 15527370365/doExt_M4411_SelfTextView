@@ -28,6 +28,10 @@
     BOOL       _selected;
     NSString * _image;
     BOOL _first;
+    float _width;
+    float _height;
+    float _rate;
+    CGAffineTransform _trans;
     
 }
 

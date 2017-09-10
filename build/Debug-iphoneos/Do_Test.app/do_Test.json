@@ -4,7 +4,7 @@
     "Type": "UI",
     "UIType": "Layout",
     "Name": "自定义字体多行文本",
-    "Version": "0.9.9.9",
+    "Version": "1.0",
     "Description": "多行文本，可以使用自定义字体；data://font.ttf",
     "Icon": "",
     "BBS": "",
