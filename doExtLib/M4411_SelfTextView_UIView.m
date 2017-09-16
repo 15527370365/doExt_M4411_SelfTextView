@@ -19,7 +19,7 @@
 #define BODER 0 //边距
 #define DIAMETER 30 //直径
 #define FONT_OBLIQUITY 15.0
-#define DEBUG 0
+#define DEBUG_TYPE 0
 
 
 @implementation M4411_SelfTextView_UIView
@@ -52,6 +52,10 @@
     //实现布局相关的修改,如果添加了非原生的view需要主动调用该view的OnRedraw，递归完成布局。view(OnRedraw)<显示布局>-->调用-->view-model(UIModel)<OnRedraw>
     
     //重新调整视图的x,y,w,h
+    [_model setRealX:self.frame.origin.x];
+    [_model setRealY:self.frame.origin.y];
+    [_model setX:self.frame.origin.x];
+    [_model setY:self.frame.origin.y];
     [doUIModuleHelper OnRedraw:_model];
 }
 
@@ -100,7 +104,7 @@
         image.tag = 401;
         image.hidden = true;
         image.image = [UIImage imageWithContentsOfFile:[doIOHelper GetLocalFileFullPath:_model.CurrentPage.CurrentApp :@"source://image/1.png" ]];
-        if (DEBUG == 1){
+        if (DEBUG_TYPE == 1){
             image.image = [UIImage imageNamed:@"delete"];
         }
         singleTapGestureRecognizer=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(handleDeleteTap)];
@@ -114,7 +118,7 @@
         image.tag = 402;
         image.hidden = true;
         image.image = [UIImage imageWithContentsOfFile:[doIOHelper GetLocalFileFullPath:_model.CurrentPage.CurrentApp :@"source://image/2.png" ]];
-        if (DEBUG == 1){
+        if (DEBUG_TYPE == 1){
             image.image = [UIImage imageNamed:@"transform"];
         }
         panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handleTransformPan:)];
@@ -127,7 +131,7 @@
         image.tag = 403;
         image.hidden = true;
         image.image = [UIImage imageWithContentsOfFile:[doIOHelper GetLocalFileFullPath:_model.CurrentPage.CurrentApp :@"source://image/3.png" ]];
-        if (DEBUG == 1){
+        if (DEBUG_TYPE == 1){
             image.image = [UIImage imageNamed:@"cross_move"];
         }
         panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handleCrossMovePan:)];
@@ -141,7 +145,7 @@
         image.hidden = true;
         
         image.image = [UIImage imageWithContentsOfFile:[doIOHelper GetLocalFileFullPath:_model.CurrentPage.CurrentApp :@"source://image/4.png" ]];
-        if (DEBUG == 1){
+        if (DEBUG_TYPE == 1){
             image.image = [UIImage imageNamed:@"move"];
         }
         panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handleMovePan:)];
@@ -156,7 +160,7 @@
         image.hidden = true;
         
         image.image = [UIImage imageWithContentsOfFile:[doIOHelper GetLocalFileFullPath:_model.CurrentPage.CurrentApp :@"source://image/5.png" ]];
-        if (DEBUG == 1){
+        if (DEBUG_TYPE == 1){
             image.image = [UIImage imageNamed:@"5"];
         }
         singleTapGestureRecognizer=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(handleTopTap)];
@@ -184,7 +188,7 @@
         //显示图片
         UIImageView *image = [self viewWithTag:101];
         image.image = [UIImage imageWithContentsOfFile:_image];
-        if (DEBUG == 1){
+        if (DEBUG_TYPE == 1){
             image.image = [UIImage imageNamed:_image];
         }
         image.hidden = false;
@@ -204,7 +208,7 @@
                                               context:nil].size;
         
         _height = textSize.height+BODER*2+DIAMETER;
-        [self change_heights:[NSString stringWithFormat:@"%f",_height]];
+        [self change_heights:[NSString stringWithFormat:@"%f",_height*2]];
         //在内部矩形显示文字
         UILabel *label = [self viewWithTag:102];
         label.text = _text;
@@ -283,6 +287,7 @@
     if (_angel != 0)
     {
         [self setTransform:CGAffineTransformMakeRotation( _angel * M_PI/180.0) ];
+        [_model SetPropertyValue:@"angle" :[NSString stringWithFormat:@"%i",_angel]];
     }
     
 }
@@ -325,6 +330,11 @@
 
 - (void)change_fontPath:(NSString *)newValue
 {
+    if ([newValue isEqualToString:@""]){
+        _font = [UIFont systemFontOfSize:_fontSize];
+        [self setNeedsDisplay];
+        return;
+    }
     NSString * ttfPath = [doIOHelper GetLocalFileFullPath:_model.CurrentPage.CurrentApp :newValue ];
     NSData *dynamicFontData = [NSData dataWithContentsOfFile:ttfPath];
     if (!dynamicFontData)
@@ -396,13 +406,14 @@
         [self setTransform:CGAffineTransformIdentity];//回归原位置
     }
     float w = self.frame.size.width;
-    [self setFrame:CGRectMake( self.frame.origin.x, self.frame.origin.y, w, [newValue intValue] )];
+    [self setFrame:CGRectMake( self.frame.origin.x, self.frame.origin.y, w, [newValue intValue]/2 )];
     float h = self.frame.size.height;
     
     [[self viewWithTag:402] setFrame:CGRectMake(BODER, h-BODER-DIAMETER, DIAMETER, DIAMETER)];//更新左下角小圆点
     [[self viewWithTag:403] setFrame:CGRectMake(w-BODER-DIAMETER, h-BODER-DIAMETER, DIAMETER, DIAMETER)];//更新右下角小圆点
     [[self viewWithTag:405] setFrame:CGRectMake(w-BODER-DIAMETER, h-BODER-DIAMETER, DIAMETER, DIAMETER)];//更新右下角小圆点
     [[self viewWithTag:101] setFrame:CGRectMake(BODER+DIAMETER/2, BODER+DIAMETER/2, w - (BODER*2+DIAMETER), h - (BODER*2+DIAMETER))]; //更新_image图像位置
+    [_model SetPropertyValue:@"heights" :newValue];
     [self setNeedsDisplay];
 }
 - (void)change_maxLength:(NSString *)newValue
@@ -416,7 +427,7 @@
 
 - (void)change_image:(NSString *)newValue
 {
-    if (DEBUG==1){
+    if (DEBUG_TYPE==1){
         _image = newValue;
     }else{
         NSString * path = [doIOHelper GetLocalFileFullPath:_model.CurrentPage.CurrentApp :newValue ];
@@ -449,12 +460,13 @@
         [self setTransform:CGAffineTransformIdentity];//回归原位置
     }
     float h = self.frame.size.height;
-    [self setFrame:CGRectMake( self.frame.origin.x, self.frame.origin.y, [newValue intValue], h)];
+    [self setFrame:CGRectMake( self.frame.origin.x, self.frame.origin.y, [newValue intValue]/2, h)];
     float w = self.frame.size.width;
     [[self viewWithTag:403] setFrame:CGRectMake(w-BODER-DIAMETER, h-BODER-DIAMETER, DIAMETER, DIAMETER)];//更新右下角小圆点
     [[self viewWithTag:405] setFrame:CGRectMake(w-BODER-DIAMETER, h-BODER-DIAMETER, DIAMETER, DIAMETER)];//更新右下角小圆点
     [[self viewWithTag:404] setFrame:CGRectMake(w-BODER-DIAMETER, BODER, DIAMETER, DIAMETER)];//更新右上角小圆点
     [[self viewWithTag:101] setFrame:CGRectMake(BODER+DIAMETER/2, BODER+DIAMETER/2, w - (BODER*2+DIAMETER), h - (BODER*2+DIAMETER))]; //更新_image图像位置
+    [_model SetPropertyValue:@"widths" :newValue];
     [self setNeedsDisplay];
 }
 
@@ -497,18 +509,40 @@
 //    if (point1.x < 0){
 //        change = -change;
 //    }
-    [self change_widths:[NSString stringWithFormat:@"%f",change+_width]];
-    [self change_heights:[NSString stringWithFormat:@"%f",(change+_width)/_rate]];
+    if (_rate >= 1){
+        if ((change+_width)/_rate<DIAMETER*2){
+            [self change_widths:[NSString stringWithFormat:@"%f",DIAMETER*2*_rate*2]];
+            [self change_heights:[NSString stringWithFormat:@"%f",DIAMETER*2.0*2]];
+        }else{
+            [self change_widths:[NSString stringWithFormat:@"%f",(change+_width)*2]];
+            [self change_heights:[NSString stringWithFormat:@"%f",(change+_width)/_rate*2]];
+        }
+    }else{
+        if ((change+_width)<DIAMETER*2){
+            [self change_widths:[NSString stringWithFormat:@"%f",DIAMETER*2.0*2]];
+            [self change_heights:[NSString stringWithFormat:@"%f",DIAMETER*2.0/_rate*2]];
+        }else{
+            [self change_widths:[NSString stringWithFormat:@"%f",(change+_width)*2]];
+            [self change_heights:[NSString stringWithFormat:@"%f",(change+_width)/_rate*2]];
+        }
+    }
+    
     
     [recognizer setTranslation:CGPointZero inView:recognizer.view];
 }
 
 - (void)handleTransformPan:(UIPanGestureRecognizer*) recognizer
 {
-    CGPoint point1 = [recognizer translationInView:self];
-    CGPoint currentPoint = CGPointMake(recognizer.view.center.x + point1.x, recognizer.view.center.y + point1.y);//当前手指的坐标
-    CGPoint center = [self.superview convertPoint:self.center toView:self];
+//    CGPoint point1 = [recognizer translationInView:self];
+//    CGPoint currentPoint = [recognizer.view convertPoint:recognizer.view.center toView:self.superview];//坐标转换
+//    currentPoint = CGPointMake(currentPoint.x + point1.x, currentPoint.y + point1.y);
+    CGPoint currentPoint = [recognizer locationInView:self.superview];//当前手指的坐标
+//    NSLog(@"currentPoint%@",NSStringFromCGPoint(currentPoint));
+    CGPoint center = [self convertPoint:self.center toView:self.superview];
+//    NSLog(@"center%@",NSStringFromCGPoint(center));
     CGPoint previousPoint = [self viewWithTag:402].center;//上一个坐标
+    previousPoint = [self convertPoint:previousPoint toView:self.superview];//坐标转换
+    
     /**
      求得每次手指移动变化的角度
      atan2f 是求反正切函数
@@ -517,10 +551,14 @@
     float a = angle * 180.0/M_PI;
     //[self setTransform:CGAffineTransformIdentity];
     self.transform = CGAffineTransformRotate(self.transform,a*M_PI/180.0);
+    [_model setRealX:self.frame.origin.x];
+    [_model setRealY:self.frame.origin.y];
+    [_model setX:self.frame.origin.x];
+    [_model setY:self.frame.origin.y];
     _trans = self.transform;
     _angel = 0;
     //    [recognizer setTranslation:CGPointZero inView:self];
-    [recognizer setTranslation:CGPointZero inView:recognizer.view];
+    [recognizer setTranslation:CGPointZero inView:self];
 }
 
 - (void)handleCrossMovePan:(UIPanGestureRecognizer*) recognizer
@@ -536,19 +574,29 @@
     if (point1.x < 0){
         change = -change;
     }
-    [self change_widths:[NSString stringWithFormat:@"%f",change+_width]];
+    if(change+_width<DIAMETER*2)
+        [self change_widths:[NSString stringWithFormat:@"%f",DIAMETER*2.0*2]];
+    else
+        [self change_widths:[NSString stringWithFormat:@"%f",(change+_width)*2]];
     
     [recognizer setTranslation:CGPointZero inView:recognizer.view];
 }
 
 - (void)handlePan:(UIPanGestureRecognizer*) recognizer
 {
+    
+//    NSLog(@"center%@",NSStringFromCGPoint([self convertPoint:recognizer.view.center toView:self.superview]))
     if (_selected){
         //获取手势的位置
         CGPoint position =[recognizer translationInView:self];
         
         //通过stransform 进行平移交换
         self.transform = CGAffineTransformTranslate(self.transform, position.x, position.y);
+        
+        [_model setRealX:self.frame.origin.x];
+        [_model setRealY:self.frame.origin.y];
+        [_model setX:self.frame.origin.x];
+        [_model setY:self.frame.origin.y];
         
         _trans = self.transform;
         
@@ -570,7 +618,7 @@
 }
 - (void)handleSingleTap
 {
-    ((UIScrollView *)self.superview).scrollEnabled = _selected;
+    ((UIScrollView *)self.superview.superview).scrollEnabled = _selected;
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
     doInvokeResult *invokeResult = [[doInvokeResult alloc]init];
     [invokeResult SetResultNode:dict];
@@ -610,7 +658,12 @@
 //                                           context:nil].size; // context上下文。包括一些信息，例如如何调整字间距以及缩放。该对象包含的信息将用于文本绘制。该参数可为nil
 //    return sizeToFit.height + _fontSize;
 //}
-
+- (void)refreshSelf:(NSArray *)parms{
+    [self setNeedsDisplay];
+    [self setNeedsLayout];
+    [self layoutIfNeeded];
+    [self layoutSubviews];
+}
 
 #pragma mark - doIUIModuleView协议方法（必须）<大部分情况不需修改>
 - (BOOL) OnPropertiesChanging: (NSMutableDictionary *) _changedValues

@@ -26,7 +26,7 @@
 - (void)change_text:(NSString *)newValue;
 - (void)change_widths:(NSString *)newValue;
 
-////同步或异步方法
-//- (void)refreshSelf:(NSArray *)parms;
+//同步或异步方法
+- (void)refreshSelf:(NSArray *)parms;
 
 @end

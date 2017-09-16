@@ -58,7 +58,13 @@
     view.backgroundColor = [UIColor redColor];
     [view LoadView:model];
     //view.image = [UIImage imageNamed:@"test"];
-    [self.view addSubview:view];
+    UIScrollView *scoll = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, 600, 400)];
+    scoll.tag = 1002;
+    scoll.backgroundColor = [UIColor blueColor];
+    scoll.contentSize = CGSizeMake(0, 400);
+    scoll.scrollEnabled = NO;
+    [self.view addSubview:scoll];
+    [scoll addSubview:view];
     [view change_text:@"kkjgjhgjkgj"];
 //    UIImageView *image = [[UIImageView alloc] initWithFrame:(CGRectMake(50, 50, 200, 200))];
 //    image.image = [UIImage imageNamed:@"test"];
@@ -126,9 +132,11 @@
 }
 - (void)test2:(UIButton *)sender
 {
-    NSLog(@"旋转");
-    M4411_SelfTextView_UIView *view = [self.view viewWithTag:1001];
-    [view change_angel:@"30"];
+    NSLog(@"添加纸");
+    UIScrollView *scoll = [self.view viewWithTag:1002];
+    [scoll setFrame:CGRectMake(scoll.frame.origin.x, scoll.frame.origin.y, scoll.frame.size.width, scoll.frame.size.width+200)];
+    [scoll setNeedsDisplay];
+//    scoll.scrollEnabled = NO;
     //执行异步方法
     //NSMutableDictionary* node = [[NSMutableDictionary alloc]init];
     //[node setObject:参数值 forKey:参数名];
