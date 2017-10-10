@@ -66,6 +66,7 @@
     [self.view addSubview:scoll];
     [scoll addSubview:view];
     [view change_text:@"kkjgjhgjkgj"];
+    [view change_angel:@"45"];
 //    UIImageView *image = [[UIImageView alloc] initWithFrame:(CGRectMake(50, 50, 200, 200))];
 //    image.image = [UIImage imageNamed:@"test"];
 //    [self.view addSubview:image];

@@ -19,7 +19,7 @@
 #define BODER 0 //边距
 #define DIAMETER 30 //直径
 #define FONT_OBLIQUITY 15.0
-#define DEBUG_TYPE 0
+#define DEBUG_TYPE 1
 
 
 @implementation M4411_SelfTextView_UIView
@@ -52,10 +52,6 @@
     //实现布局相关的修改,如果添加了非原生的view需要主动调用该view的OnRedraw，递归完成布局。view(OnRedraw)<显示布局>-->调用-->view-model(UIModel)<OnRedraw>
     
     //重新调整视图的x,y,w,h
-    [_model setRealX:self.frame.origin.x];
-    [_model setRealY:self.frame.origin.y];
-    [_model setX:self.frame.origin.x];
-    [_model setY:self.frame.origin.y];
     [doUIModuleHelper OnRedraw:_model];
 }
 
@@ -208,7 +204,7 @@
                                               context:nil].size;
         
         _height = textSize.height+BODER*2+DIAMETER;
-        [self change_heights:[NSString stringWithFormat:@"%f",_height*2]];
+        [self change_heights:[NSString stringWithFormat:@"%f",_height]];
         //在内部矩形显示文字
         UILabel *label = [self viewWithTag:102];
         label.text = _text;
@@ -287,7 +283,6 @@
     if (_angel != 0)
     {
         [self setTransform:CGAffineTransformMakeRotation( _angel * M_PI/180.0) ];
-        [_model SetPropertyValue:@"angle" :[NSString stringWithFormat:@"%i",_angel]];
     }
     
 }
@@ -406,14 +401,13 @@
         [self setTransform:CGAffineTransformIdentity];//回归原位置
     }
     float w = self.frame.size.width;
-    [self setFrame:CGRectMake( self.frame.origin.x, self.frame.origin.y, w, [newValue intValue]/2 )];
+    [self setFrame:CGRectMake( self.frame.origin.x, self.frame.origin.y, w, [newValue intValue] )];
     float h = self.frame.size.height;
     
     [[self viewWithTag:402] setFrame:CGRectMake(BODER, h-BODER-DIAMETER, DIAMETER, DIAMETER)];//更新左下角小圆点
     [[self viewWithTag:403] setFrame:CGRectMake(w-BODER-DIAMETER, h-BODER-DIAMETER, DIAMETER, DIAMETER)];//更新右下角小圆点
     [[self viewWithTag:405] setFrame:CGRectMake(w-BODER-DIAMETER, h-BODER-DIAMETER, DIAMETER, DIAMETER)];//更新右下角小圆点
     [[self viewWithTag:101] setFrame:CGRectMake(BODER+DIAMETER/2, BODER+DIAMETER/2, w - (BODER*2+DIAMETER), h - (BODER*2+DIAMETER))]; //更新_image图像位置
-    [_model SetPropertyValue:@"heights" :newValue];
     [self setNeedsDisplay];
 }
 - (void)change_maxLength:(NSString *)newValue
@@ -460,13 +454,12 @@
         [self setTransform:CGAffineTransformIdentity];//回归原位置
     }
     float h = self.frame.size.height;
-    [self setFrame:CGRectMake( self.frame.origin.x, self.frame.origin.y, [newValue intValue]/2, h)];
+    [self setFrame:CGRectMake( self.frame.origin.x, self.frame.origin.y, [newValue intValue], h)];
     float w = self.frame.size.width;
     [[self viewWithTag:403] setFrame:CGRectMake(w-BODER-DIAMETER, h-BODER-DIAMETER, DIAMETER, DIAMETER)];//更新右下角小圆点
     [[self viewWithTag:405] setFrame:CGRectMake(w-BODER-DIAMETER, h-BODER-DIAMETER, DIAMETER, DIAMETER)];//更新右下角小圆点
     [[self viewWithTag:404] setFrame:CGRectMake(w-BODER-DIAMETER, BODER, DIAMETER, DIAMETER)];//更新右上角小圆点
     [[self viewWithTag:101] setFrame:CGRectMake(BODER+DIAMETER/2, BODER+DIAMETER/2, w - (BODER*2+DIAMETER), h - (BODER*2+DIAMETER))]; //更新_image图像位置
-    [_model SetPropertyValue:@"widths" :newValue];
     [self setNeedsDisplay];
 }
 
@@ -511,19 +504,19 @@
 //    }
     if (_rate >= 1){
         if ((change+_width)/_rate<DIAMETER*2){
-            [self change_widths:[NSString stringWithFormat:@"%f",DIAMETER*2*_rate*2]];
-            [self change_heights:[NSString stringWithFormat:@"%f",DIAMETER*2.0*2]];
+            [self change_widths:[NSString stringWithFormat:@"%f",DIAMETER*2*_rate]];
+            [self change_heights:[NSString stringWithFormat:@"%f",DIAMETER*2.0]];
         }else{
-            [self change_widths:[NSString stringWithFormat:@"%f",(change+_width)*2]];
-            [self change_heights:[NSString stringWithFormat:@"%f",(change+_width)/_rate*2]];
+            [self change_widths:[NSString stringWithFormat:@"%f",change+_width]];
+            [self change_heights:[NSString stringWithFormat:@"%f",(change+_width)/_rate]];
         }
     }else{
         if ((change+_width)<DIAMETER*2){
-            [self change_widths:[NSString stringWithFormat:@"%f",DIAMETER*2.0*2]];
-            [self change_heights:[NSString stringWithFormat:@"%f",DIAMETER*2.0/_rate*2]];
+            [self change_widths:[NSString stringWithFormat:@"%f",DIAMETER*2.0]];
+            [self change_heights:[NSString stringWithFormat:@"%f",DIAMETER*2.0/_rate]];
         }else{
-            [self change_widths:[NSString stringWithFormat:@"%f",(change+_width)*2]];
-            [self change_heights:[NSString stringWithFormat:@"%f",(change+_width)/_rate*2]];
+            [self change_widths:[NSString stringWithFormat:@"%f",change+_width]];
+            [self change_heights:[NSString stringWithFormat:@"%f",(change+_width)/_rate]];
         }
     }
     
@@ -551,10 +544,6 @@
     float a = angle * 180.0/M_PI;
     //[self setTransform:CGAffineTransformIdentity];
     self.transform = CGAffineTransformRotate(self.transform,a*M_PI/180.0);
-    [_model setRealX:self.frame.origin.x];
-    [_model setRealY:self.frame.origin.y];
-    [_model setX:self.frame.origin.x];
-    [_model setY:self.frame.origin.y];
     _trans = self.transform;
     _angel = 0;
     //    [recognizer setTranslation:CGPointZero inView:self];
@@ -575,9 +564,9 @@
         change = -change;
     }
     if(change+_width<DIAMETER*2)
-        [self change_widths:[NSString stringWithFormat:@"%f",DIAMETER*2.0*2]];
+        [self change_widths:[NSString stringWithFormat:@"%f",DIAMETER*2.0]];
     else
-        [self change_widths:[NSString stringWithFormat:@"%f",(change+_width)*2]];
+        [self change_widths:[NSString stringWithFormat:@"%f",change+_width]];
     
     [recognizer setTranslation:CGPointZero inView:recognizer.view];
 }
@@ -592,11 +581,6 @@
         
         //通过stransform 进行平移交换
         self.transform = CGAffineTransformTranslate(self.transform, position.x, position.y);
-        
-        [_model setRealX:self.frame.origin.x];
-        [_model setRealY:self.frame.origin.y];
-        [_model setX:self.frame.origin.x];
-        [_model setY:self.frame.origin.y];
         
         _trans = self.transform;
         
@@ -660,7 +644,6 @@
 //}
 - (void)refreshSelf:(NSArray *)parms{
     [self setNeedsDisplay];
-    [self setNeedsLayout];
     [self layoutIfNeeded];
     [self layoutSubviews];
 }
